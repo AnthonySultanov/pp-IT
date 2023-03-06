@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.gamesbannerimage {
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+
+}
+
+/* .cardbody {
+  width: 50%;
+} */
