@@ -17,7 +17,7 @@ class App extends React.Component {
         <div className='app'>
         <Navbar bg="dark" variant="dark">
           <Container>
-          <Navbar.Brand href="/">MyShowList</Navbar.Brand>
+          <Navbar.Brand href="/">MyGameList</Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="/home">Home</Nav.Link>
             </Nav>
