@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 
 export function Home(props) {
   const [games, setGames] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleAddClick = (gameName) => {
+    const rating = prompt(`Rate ${gameName} out of 10?`);
+    console.log(`You rated ${gameName} ${rating}/10`);
+  };
 
   useEffect(() => {
     const params = {
@@ -40,6 +46,7 @@ export function Home(props) {
               {/* <Card.Text>{game.}</Card.Text> */}
               <Card.Text>{game.released}</Card.Text>
               <Card.Text>{game.metacritic}</Card.Text>
+              <Button variant="danger" style={{ marginLeft: "auto" }} onClick={() => handleAddClick(game.name)}>Add</Button>
             </Card>
           ))}
         </Card.Body>
