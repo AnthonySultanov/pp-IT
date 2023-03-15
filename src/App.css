@@ -101,6 +101,50 @@ input[type="text"] {
   }
 }
 
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: #191a1c;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+h1 {
+  color: #cdd2d2;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+.error {
+  color: #ff0000;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
+  color: #cdd2d2;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: left;
+}
+
+
+
 
 
 /* .gamesbannerimage {
