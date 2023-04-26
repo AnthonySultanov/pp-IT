@@ -1,0 +1,38 @@
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the user in the database by email
+    const user = await User.findOne({ email });
+
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Check if the password matches
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Generate a JWT token for the authenticated user
+    const token = jwt.sign({ userId: user._id, email: user.email }, 'secret');
+
+    // Send the token to the client
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+why is the above code giving
+ error 401 when details r right
+
+
+
+
+
+

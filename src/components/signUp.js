@@ -1,23 +1,25 @@
+
 import React, { Component } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 
-export class Loginpage extends Component {
+export class SignupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      loggedIn: false,
+      signedUp: false,
       error: ''
     };
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
+      const response = await axios.post('http://localhost:5000/api/signup', {
         email: this.state.email,
         password: this.state.password
       }, {
@@ -27,26 +29,26 @@ export class Loginpage extends Component {
       });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        this.setState({ loggedIn: true });
+        this.setState({ signedUp: true });
         // Redirect to home page
-        return <Navigate to='/home' />;
+        return <Navigate to='/' />;
       }
     } catch (error) {
-      this.setState({ error: 'Invalid email or password' });
+      this.setState({ error: 'Unable to sign up' });
     }
   }
 
   render() {
-    const { email, password, loggedIn, error } = this.state;
+    const { email, password, signedUp, error } = this.state;
 
-    if (loggedIn) {
-      return <Navigate to='/home' />;
+    if (signedUp) {
+      return <Navigate to='/' />;
     }
 
     return (
-      <div className="login-page">
+      <div className="signup-page">
         <div className="form">
-          <h1>Login</h1>
+          <h1>Sign up</h1>
           {error && <div className="error">{error}</div>}
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -57,13 +59,13 @@ export class Loginpage extends Component {
               <label>Password</label>
               <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={password} required />
             </div>
-            <button type='submit'>Login</button>
+            <button type='submit'>Sign up</button>
           </form>
-          <p>Don't have an account? <Link to='/signIn'>Sign up here</Link></p>
+          <p>Already have an account? <Link to='/loginpage'>Log in here</Link></p>
         </div>
       </div>
     );
   }
 }
 
-export default Loginpage;
+export default SignupPage;
