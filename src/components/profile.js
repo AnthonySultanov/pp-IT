@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import './profile.css';
 
 export function Profile() {
   const { loggedIn } = useContext(AuthContext);
@@ -33,21 +34,21 @@ export function Profile() {
 
   return (
     <div className="profile-page">
-      <Card>
-        <Card.Body className='cardbody'>
-          {addedGames && addedGames.length > 0 ? (
-            addedGames.map((game, index) => (
-              <Card key={index}>
-                <Card.Title>{game.name}</Card.Title>
-                <Card.Img className='gamesbannerimage' src={game.background_image} />
-                <Card.Text>Rating: {game.rating}</Card.Text>
-              </Card>
-            ))
-          ) : (
-            <Card.Text>No games added yet.</Card.Text>
-          )}
-        </Card.Body>
-      </Card>
+      <div className="game-list">
+        {addedGames && addedGames.length > 0 ? (
+          addedGames.map((game, index) => (
+            <div key={index} className='game-item'>
+              <img className='game-item-image' src={game.background_image} alt={game.name} />
+              <div className='game-item-details'>
+                <div className='game-item-name'>{game.name}</div>
+                <div className='game-item-rating'>Rating: {game.rating}</div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className='no-games'>No games added yet.</div>
+        )}
+      </div>
     </div>
   );
 }
