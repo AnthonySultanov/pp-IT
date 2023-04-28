@@ -1,25 +1,23 @@
-import React, { Component } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from './AuthContext';
+import { Navigate } from 'react-router-dom';
 
+export const Loginpage = () => {
+  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-export class Loginpage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      loggedIn: false,
-      error: ''
-    };
-  }
+  const navigate = useNavigate();
 
-  handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/login', {
-        email: this.state.email,
-        password: this.state.password
+        email: email,
+        password: password
       }, {
         headers: {
           'Content-Type': 'application/json'
@@ -27,43 +25,39 @@ export class Loginpage extends Component {
       });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        this.setState({ loggedIn: true });
+        setLoggedIn(true);
         // Redirect to home page
-        return <Navigate to='/home' />;
+        navigate('/home');
       }
+      
+      
     } catch (error) {
-      this.setState({ error: 'Invalid email or password' });
+      setError('Invalid email or password');
     }
   }
 
-  render() {
-    const { email, password, loggedIn, error } = this.state;
+  if (loggedIn) {
+    return <Navigate to='/home' />;
+  }
 
-    if (loggedIn) {
-      return <Navigate to='/home' />;
-    }
-
-    return (
-      <div className="login-page">
-        <div className="form">
-          <h1>Login</h1>
-          {error && <div className="error">{error}</div>}
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Email</label>
-              <input type='email' onChange={(e) => this.setState({ email: e.target.value })} value={email} required />
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={password} required />
-            </div>
-            <button type='submit'>Login</button>
-          </form>
-          <p>Don't have an account? <Link to='/signIn'>Sign up here</Link></p>
-        </div>
+  return (
+    <div className="login-page">
+      <div className="form">
+        <h1>Login</h1>
+        {error && <div className="error">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Email</label>
+            <input type='email' onChange={(e) => setEmail(e.target.value)} value={email} required />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input type='password' onChange={(e) => setPassword(e.target.value)} value={password} required />
+          </div>
+          <button type='submit'>Login</button>
+        </form>
+        <p>Don't have an account? <Link to='/signIn'>Sign up here</Link></p>
       </div>
-    );
-  }
-}
-
-export default Loginpage;
+    </div>
+  );
+};

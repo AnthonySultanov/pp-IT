@@ -10,6 +10,8 @@ import { Loginpage } from './components/loginpage';
 import { SignupPage } from './components/signUp';
 import { Profile } from './components/profile';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
+import GameContext from './components/GameContext';
+import { AuthProvider } from './components/AuthContext';
 
 function AppNavbar() {
   const location = useLocation();
@@ -34,23 +36,25 @@ function AppNavbar() {
   );
 }
 
-class App extends React.Component {
-  render() {
-    return (
+function App() {
+  return (
+    <AuthProvider>
       <Router>
-        <div className="app">
-          <AppNavbar />
-          <Routes>
-            <Route path="/" element={<Loginpage />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/loginpage" element={<Loginpage />} />
-            <Route path="/signIn" element={<SignupPage />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </div>
+        <GameContext.Provider value={[]}>
+          <div className="app">
+            <AppNavbar />
+            <Routes>
+              <Route path="/" element={<Loginpage />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/loginpage" element={<Loginpage />} />
+              <Route path="/signIn" element={<SignupPage />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
+        </GameContext.Provider>
       </Router>
-    );
-  }
+    </AuthProvider>
+  );
 }
 
 export default App;

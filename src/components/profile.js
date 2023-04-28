@@ -1,9 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import GameContext from './GameContext';
+import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 export function Profile() {
-  const [addedGames] = useContext(GameContext);
+  const { loggedIn } = useContext(AuthContext);
+  const [addedGames, setAddedGames] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!loggedIn || !token) {
+      // handle error: user is not authenticated
+      return;
+    }
+  
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+  
+    axios
+      .get('http://localhost:5000/api/profile', config)
+      .then((response) => {
+        setAddedGames(response.data.games);
+      })
+      .catch((error) => console.error(error));
+  }, [loggedIn]);
+  
+
+  if (!loggedIn) {
+    return <p>You need to be logged in to access this page.</p>;
+  }
 
   return (
     <div className="profile-page">

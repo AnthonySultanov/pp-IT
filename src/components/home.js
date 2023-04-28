@@ -4,10 +4,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import GameContext from './GameContext';
 
+
+
 export function Home() {
   const [games, setGames] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [addedGames, setAddedGames] = useContext(GameContext);
+  const [addedGames, setAddedGames] = useState([]); // New
 
   const handleAddClick = (game) => {
     const rating = prompt(`Rate ${game.name} out of 10?`);
@@ -15,12 +17,23 @@ export function Home() {
 
     const profilegame = { name: game.name, rating: rating, background_image: game.background_image };
 
-    if (Array.isArray(addedGames)) {
-      setAddedGames([...addedGames, profilegame]);
-    } else {
-      setAddedGames([profilegame]);
-    }
+    axios.post('http://localhost:5000/api/profile', {
+  name: game.name,
+  rating: rating,
+  background_image: game.background_image
+}, {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+
+
+    setAddedGames(addedGames => [...addedGames, profilegame]);
   };
+
+  
+  
 
   useEffect(() => {
     const params = {
@@ -37,6 +50,7 @@ export function Home() {
   }, [searchTerm]);
 
   return (
+    <GameContext.Provider value={[addedGames, setAddedGames]}>
     <div className='App'>
       <input
         type='text'
@@ -44,7 +58,8 @@ export function Home() {
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
       />
-      <GameContext.Provider value={[addedGames, setAddedGames]}>
+     
+      <GameContext.Provider value={[addedGames, setAddedGames]}> {/* Updated */}
         <Card>
           <Card.Body className='cardbody'>
             {games.map(game => (
@@ -58,9 +73,12 @@ export function Home() {
             ))}
           </Card.Body>
         </Card>
-      </GameContext.Provider>
+      </GameContext.Provider> {/* Updated */}
     </div>
+    </GameContext.Provider>
   );
 }
+
+
 
 export default Home;

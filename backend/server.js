@@ -1,3 +1,4 @@
+const Game = require('./games');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -58,6 +59,36 @@ app.post('/api/login', async (req, res) => {
     res.status(400).json({ error: 'Invalid email or password' });
   }
 });
+
+app.post('/api/profile', async (req, res) => {
+  const { name,rating,background_image}=req.body;
+
+  try {
+    const games = new Game({
+      name: name,
+      rating: rating,
+      background_image: background_image
+    });
+    await games.save();
+    res.json({ games });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Unable to save profile' });
+  }
+  
+});
+
+    
+app.get('/api/profile', async (req, res) => {
+  try {
+    const games = await Game.find();
+    res.json({ games });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Unable to fetch profile' });
+  }
+});
+
 
 const port = process.env.PORT || 5000;
 
