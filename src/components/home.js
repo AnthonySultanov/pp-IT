@@ -3,6 +3,8 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import GameContext from './GameContext';
+import './home.css';
+
 
 
 

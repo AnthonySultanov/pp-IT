@@ -145,43 +145,6 @@ h1 {
 
 
 
-.profile-page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.cardbody {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.card {
-  width: 30%;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-}
-
-.card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card img {
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.card-text {
-  font-size: 14px;
-  color: #999;
-}
 
 
 /* .gamesbannerimage {
